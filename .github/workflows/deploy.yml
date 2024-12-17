@@ -1,21 +1,24 @@
-name: CI/CD Pipeline
+name: Deploy to Windows Server via SSH
 
 on:
   push:
     branches:
-      - main  # যখন main ব্রাঞ্চে push হবে, তখন এটি চালু হবে
+      - main  # Trigger action when pushing to the main branch
 
- jobs:
-  build:
-    runs-on: windows-latest  # Windows লেটেস্ট ব্যবহার হচ্ছে
+jobs:
+  deploy:
+    runs-on: windows-latest  # GitHub Actions will run on Ubuntu server by default
 
     steps:
-        - name: Checkout code
-        uses: actions/checkout@v2  # কোড চেকআউট করা হচ্ছে
+    - name: Checkout code
+      uses: actions/checkout@v3  # Checkout the code to be deployed
 
-      - name: Git Pull, Install dependencies and Build
-        run: |
-          git pull origin main  # রিপোজিটরি থেকে কোড pull করা হচ্ছে
-          npm install            # ডিপেনডেন্সি ইনস্টল করা হচ্ছে
-          npm run build           # build স্ক্রিপ্ট চালানো হচ্ছে
-      
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3  # Set up the SSH agent to handle SSH keys
+
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the secret SSH private key you stored earlier
+
+    - name: Deploy via SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no Administrator@194.233.70.10 "C:\Project\gittest\scripts>deploy.bat"
