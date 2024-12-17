@@ -1,0 +1,21 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # যখন main ব্রাঞ্চে push হবে, তখন এটি চালু হবে
+
+ jobs:
+  build:
+    runs-on: windows-latest  # Windows লেটেস্ট ব্যবহার হচ্ছে
+
+    steps:
+        - name: Checkout code
+        uses: actions/checkout@v2  # কোড চেকআউট করা হচ্ছে
+
+      - name: Git Pull, Install dependencies and Build
+        run: |
+          git pull origin main  # রিপোজিটরি থেকে কোড pull করা হচ্ছে
+          npm install            # ডিপেনডেন্সি ইনস্টল করা হচ্ছে
+          npm run build           # build স্ক্রিপ্ট চালানো হচ্ছে
+      
