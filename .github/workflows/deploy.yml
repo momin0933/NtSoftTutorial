@@ -21,4 +21,4 @@ jobs:
 
     - name: Deploy via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no Administrator@194.233.70.10 "Connected"
+        ssh -o StrictHostKeyChecking=no Administrator@194.233.70.10 
