@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: windows-latest  # GitHub Actions will run on Ubuntu server by default
+    runs-on: windows-latest  # GitHub Actions will run on a Windows runner
 
     steps:
     - name: Checkout code
@@ -15,8 +15,9 @@ jobs:
 
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3  # Set up the SSH agent to handle SSH keys
-
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the secret SSH private key you stored earlier
 
-   
+    - name: Deploy via SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no Administrator@194.233.70.10 "echo 'Connection successful'"
